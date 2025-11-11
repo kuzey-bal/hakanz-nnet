@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zinnet, Beni Seviyor Musun?</title>
+    <style>
+        /*
+        * CSS STİLLERİ
+        */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffebee; /* Açık, tatlı pembe arka plan */
+            text-align: center;
+        }
+
+        h1 {
+            color: #d81b60; /* Koyu pembe başlık */
+            margin-bottom: 50px;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        /* Butonlar için genel stil */
+        .question-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* EVET butonu stili */
+        #yesButton {
+            background-color: #4CAF50; /* Yeşil */
+            color: white;
+        }
+
+        /* HAYIR butonu stili */
+        #noButton {
+            background-color: #f44336; /* Kırmızı */
+            color: white;
+        }
+        
+        /* HAYIR butonunun metnini tutan alan */
+        #noText {
+            font-size: 1.2em;
+            color: #f44336;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* SONUÇ ekranı stili */
+        #resultContainer {
+            display: none; /* Başlangıçta gizli */
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            animation: popUp 0.5s ease-out; /* Görünme animasyonu */
+        }
+
+        #resultText {
+            font-size: 2.5em;
+            color: #880e4f;
+            margin-bottom: 0;
+            white-space: nowrap;
+        }
+
+        /* Görünme Animasyonu */
+        @keyframes popUp {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <main id="mainContent">
+        <h1>Zinnet, Beni Seviyor Musun?</h1>
+        
+        <div class="buttons-container">
+            <button id="yesButton" class="question-button">EVET</button>
+            <button id="noButton" class="question-button">HAYIR</button>
+        </div>
+        
+        <div id="noText"></div>
+    </main>
+
+    <div id="resultContainer">
+        <div id="resultText"></div>
+    </div>
+
+
+    <script>
+        /*
+        * JAVASCRIPT MANTIĞI
+        */
+        const noButton = document.getElementById('noButton');
+        const yesButton = document.getElementById('yesButton');
+        const noTextDiv = document.getElementById('noText');
+        const mainContent = document.getElementById('mainContent');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultText = document.getElementById('resultText');
+
+        // HAYIR butonuna basıldığında
+        noButton.addEventListener('click', () => {
+            // "Bekle kaçırmaya geliyorum!" metnini göster
+            noTextDiv.textContent = "Bekle, kaçırmaya geliyorum! 😠";
+            
+            // EVET butonunun metnini değiştir (ekstra bir eğlence)
+            yesButton.textContent = "Hemen EVET!";
+            
+            // Butonları ve metni hafifçe sallayarak dikkat çek
+            mainContent.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                mainContent.style.animation = 'none';
+            }, 500);
+        });
+
+        // EVET butonuna basıldığında
+        yesButton.addEventListener('click', () => {
+            // Ana içeriği gizle
+            mainContent.style.display = 'none';
+            
+            // Sonuç alanını göster
+            resultContainer.style.display = 'flex';
+            
+            // Metni yaz
+            resultText.textContent = "Bende seni seviyorum prensesim! ❤️";
+            
+            // Sadece bir kez çalışması için buton dinleyicilerini kaldırabiliriz
+            noButton.removeEventListener('click', null); 
+            yesButton.removeEventListener('click', null);
+        });
+
+        // Sallanma (Shake) Animasyonu CSS'e eklendi.
+        const styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = `
+            @keyframes shake {
+                0% { transform: translate(1px, 1px) rotate(0deg); }
+                10% { transform: translate(-1px, -2px) rotate(-1deg); }
+                20% { transform: translate(-3px, 0px) rotate(1deg); }
+                30% { transform: translate(3px, 2px) rotate(0deg); }
+                40% { transform: translate(1px, -1px) rotate(1deg); }
+                50% { transform: translate(-1px, 2px) rotate(-1deg); }
+                60% { transform: translate(-3px, 1px) rotate(0deg); }
+                70% { transform: translate(3px, 1px) rotate(-1deg); }
+                80% { transform: translate(-1px, -1px) rotate(1deg); }
+                90% { transform: translate(1px, 2px) rotate(0deg); }
+                100% { transform: translate(1px, -2px) rotate(-1deg); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>
